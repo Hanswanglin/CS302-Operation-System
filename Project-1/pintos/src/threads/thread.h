@@ -94,7 +94,7 @@ struct thread
     /* Shared between thread.c and synch.c. */
     struct list_elem elem;              /* List element. */
 
-    
+    int64_t sleep_ticks;              /* record the time used for sleep. */
 
 #ifdef USERPROG
     /* Owned by userprog/process.c. */
@@ -131,6 +131,9 @@ void thread_yield (void);
 
 /* Performs some operation on thread t, given auxiliary data AUX. */
 typedef void thread_action_func (struct thread *t, void *aux);
+
+/* detect specified blocked thread's sleep time and decrease the sleep_ticks every interrupt */
+void blocked_thread_check (struct thread *t, void *aux UNUSED);
 void thread_foreach (thread_action_func *, void *);
 
 int thread_get_priority (void);
